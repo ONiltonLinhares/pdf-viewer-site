@@ -1,1 +1,1 @@
-const pdfLink = "https://drive.google.com/file/d/1sielKZFm7uOQp-DaF6Prdgo8tximi7kM/view?usp=sharing";
+const pdfLink = "https://drive.google.com/file/d/114b_COtpNRXiF3af6Lof6hbWcDo2nTQ5/view?usp=drive_link";
