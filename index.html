@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecionando...</title>
+  <script src="config.js"></script>
+  <script>
+    window.onload = function () {
+      if (typeof pdfLink === "string" && pdfLink.trim() !== "") {
+        window.location.href = pdfLink.trim();
+      } else {
+        document.body.innerHTML = "<p>Erro: Link do PDF não definido em config.js.</p>";
+      }
+    };
+  </script>
+</head>
+<body>
+  <p>Redirecionando para o PDF...</p>
+</body>
+</html>
