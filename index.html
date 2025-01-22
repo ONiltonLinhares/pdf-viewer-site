@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecionando...</title>
-  <script src="config.js"></script>
-  <script>
-    window.onload = function () {
-      if (typeof pdfLink === "string" && pdfLink.trim() !== "") {
-        window.location.href = pdfLink.trim();
-      } else {
-        document.body.innerHTML = "<p>Erro: Link do PDF não definido em config.js.</p>";
-      }
-    };
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-  <p>Redirecionando para o PDF...</p>
+    <iframe id="pdf-viewer" src="pdf/lançador_beyblade.pdf"></iframe>
 </body>
 </html>
