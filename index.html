@@ -1,26 +1,441 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Robótica CSP</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Links por Turma</title>
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --accent:#2b6cb0;
+      --muted:#64748b;
+      --success:#16a34a;
+      --radius:12px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#eef4fb);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+    }
+    .container{
+      max-width:980px;
+      margin:0 auto;
+    }
+    header{
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:20px;
+    }
+    h1{
+      margin:0;
+      font-size:1.5rem;
+      letter-spacing:-0.02em;
+    }
+    p.lead{
+      margin:0;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    .controls{
+      display:flex;
+      gap:12px;
+      margin:18px 0 24px 0;
+      flex-wrap:wrap;
+    }
+    .search{
+      flex:1 1 260px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      background:var(--card);
+      padding:8px 10px;
+      border-radius:10px;
+      box-shadow:0 1px 2px rgba(16,24,40,0.04);
+    }
+    .search input{
+      border:0;
+      outline:0;
+      width:100%;
+      font-size:0.95rem;
+      background:transparent;
+      color:inherit;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap:14px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:12px;
+      border-radius:var(--radius);
+      box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-height:110px;
+    }
+    .grade{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+    .grade h2{
+      margin:0;
+      font-size:1.05rem;
+    }
+    .grade span{
+      color:var(--muted);
+      font-size:0.9rem;
+    }
+
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .item{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .item a{
+      text-decoration:none;
+      color:var(--accent);
+      font-weight:600;
+      font-size:0.95rem;
+      word-break:break-all;
+    }
+    .actions{
+      display:flex;
+      gap:6px;
+      align-items:center;
+    }
+    button.copy{
+      background:transparent;
+      border:1px solid rgba(16,24,40,0.06);
+      padding:6px 8px;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:0.85rem;
+    }
+    .copied{
+      background:var(--success);
+      color:#fff;
+      border:none;
+    }
+    footer{
+      margin-top:20px;
+      color:var(--muted);
+      font-size:0.85rem;
+      text-align:center;
+    }
+
+    @media (max-width:520px){
+      header{flex-direction:column;align-items:flex-start;gap:6px;}
+    }
+  </style>
 </head>
 <body>
-    <iframe id="pdf-viewer" src="pdf/Jogo do reflexo.pdf#zoom=86"></iframe>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Formulários por turma</h1>
+        <p class="lead">Clique no link para abrir o formulário ou copie o link para compartilhar.</p>
+      </div>
+    </header>
+
+    <div class="controls">
+      <div class="search" role="search" aria-label="Pesquisar turmas">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M11 19a8 8 0 1 1 5.293-14.293A8 8 0 0 1 11 19z" stroke="#64748b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 21l-4.35-4.35" stroke="#64748b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <input id="filter" type="search" placeholder="Pesquisar (ex.: 6º A, 9º ano, 1ª série)"/>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button id="reset" class="copy" title="Mostrar tudo">Mostrar tudo</button>
+      </div>
+    </div>
+
+    <main class="grid" id="grid">
+      <!-- 6º ano -->
+      <section class="card" data-search="6º a 6ºA">
+        <div class="grade"><h2>6º A</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/Nm9vyb9FGTsS5fJFA" target="_blank" rel="noopener">https://forms.gle/Nm9vyb9FGTsS5fJFA</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/Nm9vyb9FGTsS5fJFA">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="6º b 6ºB">
+        <div class="grade"><h2>6º B</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/1CRNamaMBKw24tNLA" target="_blank" rel="noopener">https://forms.gle/1CRNamaMBKw24tNLA</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/1CRNamaMBKw24tNLA">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="6º c 6ºC">
+        <div class="grade"><h2>6º C</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/YdrTrTe5Cifh5YA99" target="_blank" rel="noopener">https://forms.gle/YdrTrTe5Cifh5YA99</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/YdrTrTe5Cifh5YA99">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="6º d 6ºD">
+        <div class="grade"><h2>6º D</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/jVqweDEwbg4crA5p8" target="_blank" rel="noopener">https://forms.gle/jVqweDEwbg4crA5p8</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/jVqweDEwbg4crA5p8">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7º ano -->
+      <section class="card" data-search="7º a 7ºA 7ºAno">
+        <div class="grade"><h2>7º A</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScD9eQnTZRnVQtulcoBjYuAxPC3xBW9UpzyBbaaH82Fw-XtBg/viewform?usp=preview" target="_blank" rel="noopener">Formulário 7º A (Google Forms)</a>
+            <div class="actions">
+              <button class="copy" data-link="https://docs.google.com/forms/d/e/1FAIpQLScD9eQnTZRnVQtulcoBjYuAxPC3xBW9UpzyBbaaH82Fw-XtBg/viewform?usp=preview">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="7º b 7ºB">
+        <div class="grade"><h2>7º B</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeo-nBSoK2UAkw980Zlve-i6zQacA5dhUOQwCIgEYlUfYKU4A/viewform?usp=header" target="_blank" rel="noopener">Formulário 7º B (Google Forms)</a>
+            <div class="actions">
+              <button class="copy" data-link="https://docs.google.com/forms/d/e/1FAIpQLSeo-nBSoK2UAkw980Zlve-i6zQacA5dhUOQwCIgEYlUfYKU4A/viewform?usp=header">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="7º c 7ºC">
+        <div class="grade"><h2>7º C</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdV5tM-nGLcCMRCdXWYVAxiVMpicZpLg_JsENsQLrGHYDgOfQ/viewform?usp=header" target="_blank" rel="noopener">Formulário 7º C (Google Forms)</a>
+            <div class="actions">
+              <button class="copy" data-link="https://docs.google.com/forms/d/e/1FAIpQLSdV5tM-nGLcCMRCdXWYVAxiVMpicZpLg_JsENsQLrGHYDgOfQ/viewform?usp=header">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="7º d 7ºD">
+        <div class="grade"><h2>7º D</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScECdHCXedWztwkly9IH6zRpTdMMMsd26CPb1FVLrlly0BP-A/viewform?usp=header" target="_blank" rel="noopener">Formulário 7º D (Google Forms)</a>
+            <div class="actions">
+              <button class="copy" data-link="https://docs.google.com/forms/d/e/1FAIpQLScECdHCXedWztwkly9IH6zRpTdMMMsd26CPb1FVLrlly0BP-A/viewform?usp=header">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8º ano -->
+      <section class="card" data-search="8º a 8ºA 8 ano">
+        <div class="grade"><h2>8º A</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/vRYUYmEKRGTmiCEg6" target="_blank" rel="noopener">https://forms.gle/vRYUYmEKRGTmiCEg6</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/vRYUYmEKRGTmiCEg6">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="8º b 8ºB">
+        <div class="grade"><h2>8º B</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/43JukE35TaZqJiqUA" target="_blank" rel="noopener">https://forms.gle/43JukE35TaZqJiqUA</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/43JukE35TaZqJiqUA">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="8º c 8ºC">
+        <div class="grade"><h2>8º C</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/4qPWjojNM2L1xKJb6" target="_blank" rel="noopener">https://forms.gle/4qPWjojNM2L1xKJb6</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/4qPWjojNM2L1xKJb6">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="8º d 8ºD">
+        <div class="grade"><h2>8º D</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/XGwTJtstUsb8WR568" target="_blank" rel="noopener">https://forms.gle/XGwTJtstUsb8WR568</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/XGwTJtstUsb8WR568">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9º ano -->
+      <section class="card" data-search="9º a 9ºA 9º ano">
+        <div class="grade"><h2>9º ano A</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/cjV2VpFcaewYqx8s5" target="_blank" rel="noopener">https://forms.gle/cjV2VpFcaewYqx8s5</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/cjV2VpFcaewYqx8s5">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="9º b 9ºB">
+        <div class="grade"><h2>9º ano B</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/w48vnBdxnvTo4zVr8" target="_blank" rel="noopener">https://forms.gle/w48vnBdxnvTo4zVr8</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/w48vnBdxnvTo4zVr8">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="9º c 9ºC">
+        <div class="grade"><h2>9º ano C</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/2wKT8Fz1tgB6yD38A" target="_blank" rel="noopener">https://forms.gle/2wKT8Fz1tgB6yD38A</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/2wKT8Fz1tgB6yD38A">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Séries (ensino médio) -->
+      <section class="card" data-search="1ª série 1a serie 1a">
+        <div class="grade"><h2>1ª série</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/UK6kSvxrP4GTU9BD9" target="_blank" rel="noopener">https://forms.gle/UK6kSvxrP4GTU9BD9</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/UK6kSvxrP4GTU9BD9">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="2ª série 2a serie 2a">
+        <div class="grade"><h2>2ª série</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/aQKHfW8mp7To76wRA" target="_blank" rel="noopener">https://forms.gle/aQKHfW8mp7To76wRA</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/aQKHfW8mp7To76wRA">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" data-search="3ª série 3a serie 3a">
+        <div class="grade"><h2>3ª série</h2><span>Formulário</span></div>
+        <div class="links">
+          <div class="item">
+            <a href="https://forms.gle/G7NTSGXkAwneuY4q6" target="_blank" rel="noopener">https://forms.gle/G7NTSGXkAwneuY4q6</a>
+            <div class="actions">
+              <button class="copy" data-link="https://forms.gle/G7NTSGXkAwneuY4q6">Copiar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Dica: use a caixa de pesquisa para filtrar rapidamente por turma (ex.: "6º A", "1ª série").
+    </footer>
+  </div>
+
+  <script>
+    // Copiar para área de transferência com feedback visual
+    document.querySelectorAll('button.copy').forEach(btn=>{
+      btn.addEventListener('click', async (e)=>{
+        const link = btn.getAttribute('data-link');
+        try {
+          await navigator.clipboard.writeText(link);
+          // feedback: mudar estilo e texto temporariamente
+          const original = btn.innerText;
+          btn.classList.add('copied');
+          btn.innerText = 'Copiado!';
+          setTimeout(()=>{ btn.classList.remove('copied'); btn.innerText = original; }, 2000);
+        } catch(err){
+          alert('Não foi possível copiar automaticamente. Selecione e copie manualmente:\\n' + link);
+        }
+      });
+    });
+
+    // Filtro de pesquisa simples
+    const filterInput = document.getElementById('filter');
+    const cards = Array.from(document.querySelectorAll('.card'));
+    filterInput.addEventListener('input', ()=>{
+      const q = filterInput.value.trim().toLowerCase();
+      if(!q){
+        cards.forEach(c=>c.style.display='flex');
+        return;
+      }
+      cards.forEach(card=>{
+        const text = card.getAttribute('data-search') || card.innerText;
+        card.style.display = text.toLowerCase().includes(q) ? 'flex' : 'none';
+      });
+    });
+
+    // Botão reset
+    document.getElementById('reset').addEventListener('click', ()=>{
+      filterInput.value = '';
+      filterInput.dispatchEvent(new Event('input'));
+      filterInput.focus();
+    });
+  </script>
 </body>
 </html>
